@@ -220,7 +220,8 @@ def scatter_amenity_market_price(sim, subplot):
     subplot.set_ylabel("Market Price")
 
 def scatter_proximity_market_price(sim, subplot):
-    subplot.scatter(sim.proximity, [cell.market_price for cell in sim.cells])
+    to_plot = [(prox, cell.market_price) for prox, cell in zip(sim.proximity,sim.cells) if cell.market_price > 0]
+    subplot.scatter([p[0] for p in to_plot], [p[1] for p in to_plot])
     subplot.set_title("Scatterplot of Market Price v.s. Proximity")
     subplot.set_xlabel("Proximity Norm")
     _max = max(sim.proximity)
