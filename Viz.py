@@ -114,29 +114,16 @@ def get_ui(sim, components=None, show=True, save=True):
     plt.clf()
     plt.close('all')
 
-def histo_agent_amenity(sim, subplot):
-    subplot.hist([agent.get_amenity_norm() for agent in sim.agents])
-    subplot.set_title("Histogram of Agent's Amenity Norm")
-    subplot.set_xlabel("Amenity Norm")
-    subplot.set_ylabel("Number of Agents")
-
 def histo_agent_budget(sim, subplot):
-    subplot.hist([agent.get_budget() for agent in sim.agents])
+    subplot.hist([agent.budget for agent in sim.agents])
     subplot.set_title("Histogram of Agent's Budget")
     subplot.set_xlabel("Budget")
-    subplot.set_ylabel("Number of Agents")
-
-def histo_agent_proximity(sim, subplot):
-    subplot.hist([agent.get_proximity_norm() for agent in sim.agents])
-    subplot.set_title("Histogram of Agent's Proximity Norm")
-    subplot.set_xlabel("Proximity Norm")
     subplot.set_ylabel("Number of Agents")
 
 def histo_market_price(sim, subplot):
     subplot.hist([cell.market_price for cell in sim.cells])
     subplot.set_title("Histogram of Market Price")
     subplot.set_xlabel("Market Price")
-    subplot.set_xlim(bottom=0)
     subplot.set_ylabel("Number of Cells")
 
 def line_epsilon(sim, subplot):
@@ -211,10 +198,10 @@ def plot_cells(sim, cell_color, components, show=False, save=True):
     plt.close('all')
 
 def scatter_amenity_market_price(sim, subplot):
-    amenities = [cell.get_amenity_norm() for cell in sim.cells]
+    amenities = [cell.amenity for cell in sim.cells]
     subplot.scatter(amenities, [cell.market_price for cell in sim.cells])
     subplot.set_title("Scatterplot of Market Price v.s. Amenity")
-    subplot.set_xlabel("Amenity Norm")
+    subplot.set_xlabel("Amenity")
     _max = max(amenities)
     subplot.set_xlim([-_max/50.0,1.02*max(sim.proximity)])
     subplot.set_ylabel("Market Price")
@@ -223,7 +210,7 @@ def scatter_proximity_market_price(sim, subplot):
     to_plot = [(prox, cell.market_price) for prox, cell in zip(sim.proximity,sim.cells) if cell.market_price > 0]
     subplot.scatter([p[0] for p in to_plot], [p[1] for p in to_plot])
     subplot.set_title("Scatterplot of Market Price v.s. Proximity")
-    subplot.set_xlabel("Proximity Norm")
+    subplot.set_xlabel("Proximity")
     _max = max(sim.proximity)
     subplot.set_xlim([-_max/50.0,1.02*max(sim.proximity)])
     subplot.set_ylabel("Market Price")
